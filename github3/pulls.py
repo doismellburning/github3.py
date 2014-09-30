@@ -132,6 +132,12 @@ class PullRequest(GitHubCore):
         self.html_url = pull.get('html_url')
         #: The unique id of the pull request
         self.id = pull.get('id')
+        #: Returns the list of :class:`Label <github3.issues.label.Label>`\ s
+        #: on this pull request.
+        self.labels = [Label(l, self._session) for l in pull.get('labels')]
+        labels_url = pull.get('labels_url')
+        #: Labels URL Template. Expand with ``name``
+        self.labels_urlt = URITemplate(labels_url) if labels_url else None
         #: The URL of the associated issue
         self.issue_url = pull.get('issue_url')
         #: Statuses URL
